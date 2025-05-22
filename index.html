@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>444 Mod JSON Generator</title>
+  <style>
+    body { font-family: sans-serif; padding: 20px; background: #f7f7f7; }
+    input, textarea, button { margin: 10px 0; width: 100%; padding: 8px; }
+    label { font-weight: bold; margin-top: 10px; display: block; }
+    pre { background: #222; color: #0f0; padding: 10px; overflow-x: auto; }
+  </style>
+</head>
+<body>
+  <h1>444 Mod JSON Generator</h1>
+
+  <form id="jsonForm">
+    <label>jsonData</label>
+    <textarea id="jsonData"></textarea>
+
+    <label>stashPos</label>
+    <input type="text" id="stashPos">
+
+    <label>children</label>
+    <input type="text" id="children">
+
+    <label>grabPos</label>
+    <input type="text" id="grabPos">
+
+    <label>grabRot</label>
+    <input type="text" id="grabRot">
+
+    <label>state</label>
+    <input type="text" id="state">
+
+    <label>ammo</label>
+    <input type="text" id="ammo">
+
+    <label>scaleModifier</label>
+    <input type="text" id="scaleModifier">
+
+    <label>colorHue</label>
+    <input type="text" id="colorHue">
+
+    <label>colorSaturation</label>
+    <input type="text" id="colorSaturation">
+
+    <button type="submit">Generate JSON</button>
+  </form>
+
+  <h3>Output</h3>
+  <pre id="output"></pre>
+  <button onclick="downloadJSON()">Download JSON</button>
+
+  <script>
+    const form = document.getElementById('jsonForm');
+    const output = document.getElementById('output');
+    let currentJSON = {};
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      currentJSON = {
+        jsonData: document.getElementById('jsonData').value,
+        stashPos: document.getElementById('stashPos').value,
+        children: document.getElementById('children').value,
+        grabPos: document.getElementById('grabPos').value,
+        grabRot: document.getElementById('grabRot').value,
+        state: document.getElementById('state').value,
+        ammo: document.getElementById('ammo').value,
+        scaleModifier: document.getElementById('scaleModifier').value,
+        colorHue: document.getElementById('colorHue').value,
+        colorSaturation: document.getElementById('colorSaturation').value
+      };
+
+      output.textContent = JSON.stringify(currentJSON, null, 2);
+    });
+
+    function downloadJSON() {
+      const blob = new Blob([JSON.stringify(currentJSON, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'inventory.json';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  </script>
+</body>
+</html>
